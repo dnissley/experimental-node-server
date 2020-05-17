@@ -1,0 +1,23 @@
+{
+  "name": "experimental-node-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnissley/experimental-node-server.git"
+  },
+  "author": "Dylan Nissley <dylan.nissley@gmail.com>",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/dnissley/experimental-node-server/issues"
+  },
+  "homepage": "https://github.com/dnissley/experimental-node-server#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
