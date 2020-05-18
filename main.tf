@@ -115,6 +115,13 @@ resource "aws_security_group" "load_balancer_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0 # Allowing any incoming port
     to_port     = 0 # Allowing any outgoing port
@@ -131,7 +138,7 @@ resource "aws_lb_target_group" "target_group" {
   vpc_id      = aws_default_vpc.default_vpc.id
 }
 
-resource "aws_lb_listener" "listener" {
+resource "aws_lb_listener" "http_listener" {
   load_balancer_arn = aws_lb.application_load_balancer.arn
   port              = "80"
   protocol          = "HTTP"
@@ -141,18 +148,37 @@ resource "aws_lb_listener" "listener" {
   }
 }
 
+resource "aws_lb_listener" "https_listener" {
+  load_balancer_arn = aws_lb.application_load_balancer.arn
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = aws_acm_certificate.nodejs_subdomain.arn
+  default_action {
+    target_group_arn = aws_lb_target_group.target_group.arn
+    type             = "forward"
+  }
+}
+
 data "aws_route53_zone" "zone" {
   name = "dylannissley.com"
 }
 
+resource "aws_acm_certificate" "nodejs_subdomain" {
+  domain_name       = "nodejs.dylannissley.com"
+  validation_method = "DNS"
+}
+
 resource "aws_route53_record" "nodejs_subdomain" {
+  name    = aws_acm_certificate.nodejs_subdomain.domain_validation_options.0.resource_record_name
+  type    = aws_acm_certificate.nodejs_subdomain.domain_validation_options.0.resource_record_type
   zone_id = data.aws_route53_zone.zone.zone_id
-  name    = "nodejs.dylannissley.com"
-  type    = "A"
-  alias {
-    name                   = aws_lb.application_load_balancer.dns_name
-    zone_id                = aws_lb.application_load_balancer.zone_id
-    evaluate_target_health = true
-  }
+  records = [aws_acm_certificate.nodejs_subdomain.domain_validation_options.0.resource_record_value]
+  ttl     = "60"
+}
+
+resource "aws_acm_certificate_validation" "nodejs_subdomain" {
+  certificate_arn = aws_acm_certificate.nodejs_subdomain.arn
+  validation_record_fqdns = [aws_route53_record.nodejs_subdomain.fqdn]
 }
 
