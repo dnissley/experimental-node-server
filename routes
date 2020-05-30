@@ -1,0 +1,7 @@
+# pages
+GET    /         index
+GET    /login    login
+
+# api
+GET    /put      put
+GET    /get      get
