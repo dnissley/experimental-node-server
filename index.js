@@ -17,7 +17,7 @@ const routes = configureRoutes({
       {
         TableName: 'test-1',
         Key: {
-          PK: { S: 'TEST_PK::1' },
+          PK: { S: `TEST_PK::${req.params.id}` },
           SK: { S: 'TEST_SK::1' }
         }
       },
@@ -25,6 +25,7 @@ const routes = configureRoutes({
         if (err) {
           res.status(500).json(err)
         } else {
+          console.log(JSON.stringify(data))
           res.status(200).json(data)
         }
       }
@@ -34,33 +35,15 @@ const routes = configureRoutes({
     dynamodbClient.putItem(
       {
         TableName: 'test-1',
+        ConditionExpression: 'attribute_not_exists(#pk) AND attribute_not_exists(#sk)',
+        ExpressionAttributeNames: {
+          '#pk': 'PK',
+          '#sk': 'SK'
+        },
         Item: {
-          PK: { S: 'TEST_PK::1' },
+          PK: { S: `TEST_PK::${req.params.id}` },
           SK: { S: 'TEST_SK::1' },
-          stringProperty: { S: 'this is a string property' },
-          numberProperty: { N: '1234' },
-          booleanProperty1: { BOOL: true },
-          booleanProperty2: { BOOL: false },
-          mapProperty: {
-            M: {
-              mapProperty1: { S: 'this is a nested property' }
-            }
-          },
-          listProperty: {
-            L: [
-              { S: 'first list item' },
-              { S: 'second list item' },
-              { S: 'third list item' } 
-            ]
-          },
-          stringSetProperty: {
-            SS: [
-              'first set item',
-              'second set item',
-              'third set item'
-            ]
-          },
-          nullProperty: { NULL: true },
+          testProperty: { S: 'hi' }
         }
       },
       (err, data) => {

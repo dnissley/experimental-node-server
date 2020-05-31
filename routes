@@ -3,5 +3,5 @@ GET    /         index
 GET    /login    login
 
 # api
-GET    /put      put
-GET    /get      get
+POST   /put/:id      put
+GET    /get/:id      get
