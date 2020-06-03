@@ -19,9 +19,10 @@
   "homepage": "https://github.com/dnissley/experimental-node-server#readme",
   "dependencies": {
     "aws-sdk": "^2.686.0",
+    "bcrypt": "^4.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-routes-file": "^1.0.2",
+    "express-routes-file": "^1.0.3",
     "pug": "^3.0.0"
   },
   "devDependencies": {

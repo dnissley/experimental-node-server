@@ -1,7 +1,8 @@
 # pages
-GET    /         index
-GET    /login    login
+GET    /                 homePage
+GET    /createAccount    createAccountPage
+GET    /login            loginPage
 
 # api
-POST   /put/:id      put
-GET    /get/:id      get
+POST   /createAccount    createAccount
+POST   /login            login
