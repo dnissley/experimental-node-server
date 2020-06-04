@@ -10,7 +10,7 @@ const port = 3000
 
 app.set('view engine', 'pug')
 
-app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: false }))
 app.use('/static', express.static('static'))
 
 const routes = configureRoutes({
