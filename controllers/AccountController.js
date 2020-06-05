@@ -17,11 +17,11 @@ class AccountController {
     if (!req.body || !req.body.email || !req.body.password) {
       return res.status(400).send()
     }
-    const user = await login({
+    const sessionId = await login({
       email: req.body.email,
       password: req.body.password
     })
-    res.status(200).send(user)
+    res.status(200).send({ sessionId })
   }
 }
 
