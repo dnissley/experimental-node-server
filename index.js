@@ -1,7 +1,6 @@
 require('dotenv').config()
 const express = require('express')
 const configureRoutes = require('express-routes-file')
-const { dynamodbClient } = require('./aws')
 const AccountController = require('./controllers/AccountController')
 
 const accountController = new AccountController()
@@ -18,7 +17,7 @@ const routes = configureRoutes({
   createAccountPage: (req, res) => res.render('index', { title: 'Create Account Page', message: 'Welcome to the create account page.' }),
   loginPage: (req, res) => res.render('index', { title: 'Login Page', message: 'Welcome to the login page.' }),
   createAccount: accountController.createAccount,
-  login: accountController.login,
+  login: accountController.login
 })
 
 app.use('/', routes)

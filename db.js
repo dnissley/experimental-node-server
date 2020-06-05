@@ -1,7 +1,7 @@
 const { dynamodbClient } = require('./aws')
 const { AuthorizationError, BadRequestError } = require('./errors')
 
-async function insertUser({ email, passwordHash }) {
+async function insertUser ({ email, passwordHash }) {
   try {
     await dynamodbClient.putItem({
       TableName: process.env.DYNAMO_TABLE,
@@ -27,7 +27,7 @@ async function insertUser({ email, passwordHash }) {
   }
 }
 
-async function fetchUserByEmail({ email }) {
+async function fetchUserByEmail ({ email }) {
   try {
     const response = await dynamodbClient.getItem({
       TableName: process.env.DYNAMO_TABLE,
@@ -49,18 +49,18 @@ async function fetchUserByEmail({ email }) {
   }
 }
 
-async function fetchUserBySessionId({ sessionId }) {
-  try {
-    const response = await dynamodbClient.query({
-      TableName: process.env.DYNAMO_TABLE
-    })
-  } catch (err) {
-    err.statusCode = 500
-    throw err
-  }
-}
+// async function fetchUserBySessionId ({ sessionId }) {
+//   try {
+//     const response = await dynamodbClient.query({
+//       TableName: process.env.DYNAMO_TABLE
+//     })
+//   } catch (err) {
+//     err.statusCode = 500
+//     throw err
+//   }
+// }
 
-async function insertSession({ email, sessionId }) {
+async function insertSession ({ email, sessionId }) {
   try {
     await dynamodbClient.transactWriteItems({
       TransactItems: [
@@ -83,7 +83,7 @@ async function insertSession({ email, sessionId }) {
             TableName: process.env.DYNAMO_TABLE,
             Item: {
               PK: { S: `USER::${email}` },
-              SK: { S: `SESSION::${sessionId}`},
+              SK: { S: `SESSION::${sessionId}` },
               TYPE: 'USER_SESSION'
             }
           }
@@ -100,6 +100,6 @@ async function insertSession({ email, sessionId }) {
 module.exports = {
   insertUser,
   fetchUserByEmail,
-  fetchUserBySessionId,
+  // fetchUserBySessionId,
   insertSession
 }
