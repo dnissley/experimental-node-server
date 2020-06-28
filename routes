@@ -1,5 +1,5 @@
 # pages
-GET    /                 homePage
+#GET    /                 homePage
 GET    /createAccount    createAccountPage
 GET    /login            loginPage
 

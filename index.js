@@ -7,13 +7,11 @@ const accountController = new AccountController()
 const app = express()
 const port = 3000
 
-app.set('view engine', 'pug')
-
 app.use(express.urlencoded({ extended: false }))
-app.use('/static', express.static('static'))
+app.use('/', express.static('static'))
 
 const routes = configureRoutes({
-  homePage: (req, res) => res.render('index', { title: 'Home Page', message: 'Welcome to the home page.' }),
+  // homePage: (req, res) => res.render('index', { title: 'Home Page', message: 'Welcome to the home page.' }),
   createAccountPage: (req, res) => res.render('index', { title: 'Create Account Page', message: 'Welcome to the create account page.' }),
   loginPage: (req, res) => res.render('index', { title: 'Login Page', message: 'Welcome to the login page.' }),
   createAccount: accountController.createAccount,
