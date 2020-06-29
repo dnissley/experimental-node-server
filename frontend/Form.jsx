@@ -5,31 +5,52 @@ class Form extends Component {
     super()
 
     this.state = {
-      value: ''
+      email: ''
     }
 
-    this.handleChange = this.handleChange.bind(this)
+    this.handleEmailChange = this.handleEmailChange.bind(this)
+    this.handlePasswordChange = this.handlePasswordChange.bind(this)
+    this.handleLogInButton = this.handleLogInButton.bind(this)
   }
 
-  handleChange (event) {
+  handleEmailChange (event) {
     const { value } = event.target
     this.setState(() => {
-      return {
-        value
-      }
+      return { email: value }
     })
+  }
+
+  handlePasswordChange (event) {
+    const { value } = event.target
+    this.setState(() => {
+      return { password: value }
+    })
+  }
+
+  handleLogInButton (event) {
+    console.log(JSON.stringify(this.state))
+    event.preventDefault()
   }
 
   render () {
     return (
       <div>
-        <div>hi</div>
         <form>
+          <label>Email: </label>
           <input
             type='text'
-            value={this.state.value}
-            onChange={this.handleChange}
+            value={this.state.email}
+            onChange={this.handleEmailChange}
           />
+          <br />
+          <label>Password: </label>
+          <input
+            type='password'
+            value={this.state.password}
+            onChange={this.handlePasswordChange}
+          />
+          <br />
+          <button onClick={this.handleLogInButton}>Log in</button>
         </form>
       </div>
     )
