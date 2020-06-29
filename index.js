@@ -11,9 +11,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use('/', express.static('static'))
 
 const routes = configureRoutes({
-  // homePage: (req, res) => res.render('index', { title: 'Home Page', message: 'Welcome to the home page.' }),
-  createAccountPage: (req, res) => res.render('index', { title: 'Create Account Page', message: 'Welcome to the create account page.' }),
-  loginPage: (req, res) => res.render('index', { title: 'Login Page', message: 'Welcome to the login page.' }),
+  healthcheck: (req, res) => { res.send({ healthy: true }).status(200) },
   createAccount: accountController.createAccount,
   login: accountController.login
 })

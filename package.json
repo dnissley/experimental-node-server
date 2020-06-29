@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./index.js",
+    "start": "node ./index.js",
+    "dev": "nodemon ./index.js",
     "build": "webpack --mode production"
   },
   "repository": {
@@ -22,7 +23,7 @@
     "bcrypt": "^4.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-routes-file": "^1.0.3",
+    "express-routes-file": "^1.0.9",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "uuid": "^8.1.0"
@@ -37,6 +38,21 @@
     "nodemon": "^2.0.4",
     "standard": "^14.3.4",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "nodemonConfig": {
+    "ext": "js,jsx,html",
+    "watch": [
+      "*.*",
+      "routes"
+    ],
+    "ignore": [
+      "static/"
+    ],
+    "events": {
+      "start": "webpack --mode production",
+      "restart": "webpack --mode production"
+    }
   }
 }

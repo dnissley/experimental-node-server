@@ -1,7 +1,5 @@
-# pages
-#GET    /                 homePage
-GET    /createAccount    createAccountPage
-GET    /login            loginPage
+# ops
+GET    /healthcheck      healthcheck
 
 # api
 POST   /createAccount    createAccount
