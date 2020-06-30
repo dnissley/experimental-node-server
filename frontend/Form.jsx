@@ -1,60 +1,46 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
+import getCookie from './utilities/getCookie'
+import { USERNAME_COOKIE } from './constants'
+import api from './api'
 
-class Form extends Component {
-  constructor () {
-    super()
+const Form = () => {
+  const [loggedInUsername, setLoggedInUsername] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  useEffect(() => {
+    console.log('useEffect')
+    setLoggedInUsername(getCookie(USERNAME_COOKIE))
+  })
 
-    this.state = {
-      email: ''
-    }
-
-    this.handleEmailChange = this.handleEmailChange.bind(this)
-    this.handlePasswordChange = this.handlePasswordChange.bind(this)
-    this.handleLogInButton = this.handleLogInButton.bind(this)
+  const logIn = (e) => {
+    api.logIn(email, password).then(() => setLoggedInUsername(getCookie(USERNAME_COOKIE)))
+    e.preventDefault()
   }
 
-  handleEmailChange (event) {
-    const { value } = event.target
-    this.setState(() => {
-      return { email: value }
-    })
-  }
+  const status = loggedInUsername ? `Logged in as ${loggedInUsername}` : 'Not logged in'
 
-  handlePasswordChange (event) {
-    const { value } = event.target
-    this.setState(() => {
-      return { password: value }
-    })
-  }
-
-  handleLogInButton (event) {
-    console.log(JSON.stringify(this.state))
-    event.preventDefault()
-  }
-
-  render () {
-    return (
-      <div>
-        <form>
-          <label>Email: </label>
-          <input
-            type='text'
-            value={this.state.email}
-            onChange={this.handleEmailChange}
-          />
-          <br />
-          <label>Password: </label>
-          <input
-            type='password'
-            value={this.state.password}
-            onChange={this.handlePasswordChange}
-          />
-          <br />
-          <button onClick={this.handleLogInButton}>Log in</button>
-        </form>
-      </div>
-    )
-  }
+  return (
+    <div>
+      <div>Status: {status}</div>
+      <form>
+        <label>Email: </label>
+        <input
+          type='text'
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <br />
+        <label>Password: </label>
+        <input
+          type='password'
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <br />
+        <button onClick={logIn}>Log in</button>
+      </form>
+    </div>
+  )
 }
 
 export default Form

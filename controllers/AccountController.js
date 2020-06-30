@@ -14,6 +14,8 @@ class AccountController {
   }
 
   async login (req, res) {
+    res.clearCookie('username')
+    res.clearCookie('sessionId')
     if (!req.body || !req.body.email || !req.body.password) {
       return res.status(400).send()
     }
@@ -21,7 +23,9 @@ class AccountController {
       email: req.body.email,
       password: req.body.password
     })
-    res.status(200).send({ sessionId })
+    res.cookie('username', req.body.email)
+    res.cookie('sessionId', sessionId, { httpOnly: true })
+    res.status(200).send()
   }
 }
 

@@ -24,12 +24,14 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-routes-file": "^1.0.9",
+    "ky": "^0.20.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "uuid": "^8.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",
+    "@babel/plugin-transform-runtime": "^7.10.3",
     "@babel/preset-env": "^7.10.3",
     "@babel/preset-react": "^7.10.1",
     "babel-loader": "^8.1.0",
