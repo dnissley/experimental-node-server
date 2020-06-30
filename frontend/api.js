@@ -7,6 +7,9 @@ const logIn = (email, password) => ky.post('login', {
   }
 })
 
+const logOut = (email, password) => ky.post('logout')
+
 export default {
-  logIn
+  logIn,
+  logOut
 }

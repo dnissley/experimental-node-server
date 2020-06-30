@@ -84,12 +84,28 @@ async function insertSession ({ email, sessionId }) {
             Item: {
               PK: { S: `USER::${email}` },
               SK: { S: `SESSION::${sessionId}` },
-              TYPE: 'USER_SESSION'
+              TYPE: { S: 'USER_SESSION' }
             }
           }
         }
       ]
-    })
+    }).promise()
+  } catch (err) {
+    console.error(JSON.stringify(err))
+    err.statusCode = 500
+    throw err
+  }
+}
+
+async function deleteSession ({ email, sessionId }) {
+  try {
+    await dynamodbClient.deleteItem({
+      TableName: process.env.DYNAMO_TABLE,
+      Key: {
+        PK: { S: `USER::${email}` },
+        SK: { S: `SESSION::${sessionId}` }
+      }
+    }).promise()
   } catch (err) {
     console.error(JSON.stringify(err))
     err.statusCode = 500
@@ -101,5 +117,6 @@ module.exports = {
   insertUser,
   fetchUserByEmail,
   // fetchUserBySessionId,
-  insertSession
+  insertSession,
+  deleteSession
 }

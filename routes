@@ -4,3 +4,4 @@ GET    /healthcheck      healthcheck
 # api
 POST   /createAccount    createAccount
 POST   /login            login
+POST   /logout           logout

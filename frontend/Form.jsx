@@ -7,13 +7,24 @@ const Form = () => {
   const [loggedInUsername, setLoggedInUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  useEffect(() => {
-    console.log('useEffect')
+
+  const updateLoggedInUsername = () => {
     setLoggedInUsername(getCookie(USERNAME_COOKIE))
-  })
+  }
+
+  useEffect(updateLoggedInUsername)
 
   const logIn = (e) => {
-    api.logIn(email, password).then(() => setLoggedInUsername(getCookie(USERNAME_COOKIE)))
+    api.logIn(email, password).then(() => {
+      updateLoggedInUsername()
+    })
+    e.preventDefault()
+  }
+
+  const logOut = (e) => {
+    api.logOut().then(() => {
+      updateLoggedInUsername()
+    })
     e.preventDefault()
   }
 
@@ -38,6 +49,8 @@ const Form = () => {
         />
         <br />
         <button onClick={logIn}>Log in</button>
+        <br />
+        <button onClick={logOut}>Log out</button>
       </form>
     </div>
   )
